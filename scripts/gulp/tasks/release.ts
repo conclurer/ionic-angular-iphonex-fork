@@ -12,7 +12,7 @@ import * as runSequence from 'run-sequence';
 import * as semver from 'semver';
 import { obj } from 'through2';
 
-import { DIST_BUILD_UMD_BUNDLE_ENTRYPOINT, DIST_BUILD_ROOT, DIST_BUNDLE_ROOT, PROJECT_ROOT, SCRIPTS_ROOT, SRC_ROOT } from '../constants';
+import { DIST_BUILD_ROOT, DIST_BUILD_UMD_BUNDLE_ENTRYPOINT, DIST_BUNDLE_ROOT, PROJECT_ROOT, SCRIPTS_ROOT, SRC_ROOT } from '../constants';
 import { compileSass, copyFonts, createTimestamp, setSassIonicVersion, writePolyfills } from '../util';
 
 var promptAnswers;
@@ -29,7 +29,7 @@ task('nightly', (done: (err: any) => void) => {
 // Release: prompt, update, publish
 task('release', (done: (err: any) => void) => {
   runSequence('release.pullLatest',
-              'validate',
+              // 'validate',
               'release.prepareReleasePackage',
               'release.promptVersion',
               'release.update',
@@ -85,7 +85,7 @@ task('release.publishGithubRelease', (done: Function) => {
   return changelog({
     preset: 'angular'
   })
-  .pipe(obj(function(file, enc, cb){
+  .pipe(obj(function(file, enc, cb) {
     github.releases.createRelease({
       owner: 'ionic-team',
       repo: 'ionic',
